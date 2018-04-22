@@ -7,5 +7,5 @@ import com.example.mike0.redditkotlinactivity.data.model.Child
  */
 interface MainView {
     fun showPosts(results: MutableList<Child>?)
-    fun showError()
+    fun showError(error: Throwable)
 }

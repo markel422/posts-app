@@ -28,7 +28,7 @@ class MainPresenterImpl @Inject constructor(private var view: MainView) : MainPr
         view.showPosts(results)
     }
 
-    override fun onPostResponseError() {
-        view.showError()
+    override fun onPostResponseError(error: Throwable) {
+        view.showError(error)
     }
 }

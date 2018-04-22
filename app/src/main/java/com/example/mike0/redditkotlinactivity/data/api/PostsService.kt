@@ -1,9 +1,7 @@
 package com.example.mike0.redditkotlinactivity.data.api
 
 import com.example.mike0.redditkotlinactivity.data.model.PostsAPI
-
 import io.reactivex.Observable
-import retrofit2.Call
 import retrofit2.http.GET
 
 /**

@@ -7,7 +7,6 @@ import com.example.mike0.redditkotlinactivity.data.component.RedditApplicationCo
 import com.example.mike0.redditkotlinactivity.data.model.Child
 import com.example.mike0.redditkotlinactivity.data.model.PostsAPI
 import com.example.mike0.redditkotlinactivity.data.module.RedditServicesModule
-import com.example.mike0.redditkotlinactivity.main.MainActivity
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -29,7 +28,7 @@ class MainInteractor {
 
     interface OnPostResponseListener {
         fun onPostResponseDone(results: MutableList<Child>)
-        fun onPostResponseError()
+        fun onPostResponseError(error: Throwable)
     }
 
     fun setOnPostResponseListener(listener: OnPostResponseListener) {
@@ -74,6 +73,7 @@ class MainInteractor {
 
                     override fun onError(e: Throwable) {
                         Log.d(TAG, "onError: $e")
+                        listener.onPostResponseError(e)
                     }
 
                     override fun onComplete() {

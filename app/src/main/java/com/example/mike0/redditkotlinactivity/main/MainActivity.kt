@@ -93,8 +93,8 @@ class MainActivity : AppCompatActivity(), MainView, ItemClickListener {
         }
     }
 
-    override fun showError() {
-        Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show()
+    override fun showError(error: Throwable) {
+        Toast.makeText(this, "Network Error $error", Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

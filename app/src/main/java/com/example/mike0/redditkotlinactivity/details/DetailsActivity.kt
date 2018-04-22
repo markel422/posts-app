@@ -1,13 +1,9 @@
 package com.example.mike0.redditkotlinactivity.details
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.AttributeSet
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import com.example.mike0.redditkotlinactivity.R
 
