@@ -1,16 +1,17 @@
 package com.example.mike0.redditkotlinactivity.data.api
 
 import android.util.Log
+import com.example.mike0.redditkotlinactivity.RedditApplication
+import com.example.mike0.redditkotlinactivity.data.component.DaggerRedditApplicationComponent
+import com.example.mike0.redditkotlinactivity.data.component.RedditApplicationComponent
 import com.example.mike0.redditkotlinactivity.data.model.Child
 import com.example.mike0.redditkotlinactivity.data.model.PostsAPI
+import com.example.mike0.redditkotlinactivity.data.module.RedditServicesModule
 import com.example.mike0.redditkotlinactivity.main.MainActivity
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 /**
@@ -18,11 +19,8 @@ import java.util.concurrent.TimeUnit
  */
 class MainInteractor {
     companion object {
-        private val TAG: String = MainActivity::class.java.simpleName
+        private val TAG: String = RedditApplication::class.java.simpleName
     }
-
-    val something.middle: String
-        get() = "full"
 
     private lateinit var service: PostsService
     private lateinit var postsList: MutableList<Child>
@@ -43,12 +41,11 @@ class MainInteractor {
     }
 
     private fun setUpService() {
-        service = Retrofit.Builder()
-                .baseUrl(PostsService.BASE_URL)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(PostsService::class.java)
+        val component: RedditApplicationComponent = DaggerRedditApplicationComponent.builder()
+                .redditServicesModule(RedditServicesModule())
+                .build();
+
+        service = component.postsService
     }
 
     fun getPosts() {
@@ -81,42 +78,7 @@ class MainInteractor {
 
                     override fun onComplete() {
                         Log.d(TAG, "onComplete: ")
-
-                        var simpleName = something("my", "name")
-
-                        fun something.printFullName(): String {
-                            return "$first $middle $last"
-                        }
-
-                        Log.d(TAG, simpleName.printFullName())
                     }
                 })
     }
-
-    class something(var first: String, var last: String)
-
-    /*Observer<PostsAPI> {
-        override fun onSubscribe(d: Disposable) {
-
-        }
-
-        override fun onNext(postsAPI: PostsAPI) {
-            postsList = ArrayList(0)
-            postsList.addAll(postsAPI.data.children)
-            listener.onPostResponseDone(postsList)
-
-            for (post: Child in postsList) {
-                Log.d(TAG, "onResponse: ${post.data.title}")
-            }
-        }
-
-        override fun onError(e: Throwable) {
-            listener.onPostResponseError()
-            Log.d(TAG, "onError: $e")
-        }
-
-        override fun onComplete() {
-            Log.d(TAG, "onComplete: ")
-        }
-    }*/
 }
